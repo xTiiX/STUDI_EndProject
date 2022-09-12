@@ -20,11 +20,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('first_name', 255);
             $table->string('last_name', 255);
-            $table->unsignedBigInteger('access_level_id')->default(1);
+            $table->unsignedBigInteger('access_level')->default(0);
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('access_level_id')->references('id')->on('access_level');
         });
     }
 
