@@ -18,7 +18,27 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', ['partners' => ['name' => 'Test', 'desc' => 'Bla bla blaaaaa']]);
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/users', function () {
+    return view('welcome');
+})->middleware(['auth'])->name('users');
+
+Route::get('/partners', function () {
+    return view('welcome');
+})->middleware(['auth'])->name('partners');
+
+Route::get('/structures', function () {
+    return view('welcome');
+})->middleware(['auth'])->name('structures');
+
+Route::get('/services', function () {
+    return view('welcome');
+})->middleware(['auth'])->name('services');
+
+Route::get('/params', function () {
+    return view('welcome');
+})->middleware(['auth'])->name('params');
 
 require __DIR__.'/auth.php';

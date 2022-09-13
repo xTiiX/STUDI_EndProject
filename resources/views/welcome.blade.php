@@ -33,7 +33,7 @@
                 </div>
                 <div class="mt-9 flex flex-col text-gray-800 dark:text-white items-center">
                     <div class="text-xl">
-                        <p>Bienvenu sur Loockers !</p>
+                        <p>Bienvenue sur Loockers !</p>
                     </div>
                     <div class="mt-4 text-lg">
                         @if (Route::has('login'))
