@@ -13,7 +13,16 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Utilisateurs') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('partners')" :active="request()->routeIs('#')">
+                        {{ __('Partenaires') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('structures')" :active="request()->routeIs('#')">
+                        {{ __('Salles') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('services')" :active="request()->routeIs('#')">
+                        {{ __('Services') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -34,6 +43,9 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('params')">
+                            {{ __('Paramêtres') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -41,7 +53,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Déconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -66,6 +78,18 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('#')">
+                {{ __('Utilisateurs') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('partners')" :active="request()->routeIs('#')">
+                {{ __('Partenaires') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('structures')" :active="request()->routeIs('#')">
+                {{ __('Salles') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('services')" :active="request()->routeIs('#')">
+                {{ __('Services') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -76,6 +100,9 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('params')">
+                    {{ __('Paramêtres') }}
+                </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
