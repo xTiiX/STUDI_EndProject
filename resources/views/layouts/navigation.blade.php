@@ -5,23 +5,23 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center mt-3">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('partners.index') }}">
                         <x-application-logo class="block h-10 w-auto" color="#374151"/>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Utilisateurs') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('partners')" :active="request()->routeIs('#')">
+                    <x-nav-link :href="route('partners.index')" :active="request()->routeIs('partners.index')">
                         {{ __('Partenaires') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('structures')" :active="request()->routeIs('#')">
+                    <x-nav-link :href="route('partners.structures.index')" :active="request()->routeIs('partners.structures.index')">
                         {{ __('Salles') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('services')" :active="request()->routeIs('#')">
+                    <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                         {{ __('Services') }}
                     </x-nav-link>
                 </div>
@@ -44,7 +44,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('params')">
-                            {{ __('Paramêtres') }}
+                            {{ __('Paramètres') }}
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -75,19 +75,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('#')">
+            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                 {{ __('Utilisateurs') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('partners')" :active="request()->routeIs('#')">
+            <x-responsive-nav-link :href="route('partners.index')" :active="request()->routeIs('partners.index')">
                 {{ __('Partenaires') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('structures')" :active="request()->routeIs('#')">
+            <x-responsive-nav-link :href="route('partners.structures.index')" :active="request()->routeIs('partners.structures.index')">
                 {{ __('Salles') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('services')" :active="request()->routeIs('#')">
+            <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                 {{ __('Services') }}
             </x-responsive-nav-link>
         </div>
@@ -101,7 +98,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('params')">
-                    {{ __('Paramêtres') }}
+                    {{ __('Paramètres') }}
                 </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
@@ -110,7 +107,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Déconnexion') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
