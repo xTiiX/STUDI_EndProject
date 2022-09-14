@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PartnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +18,58 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard', ['partners' => ['name' => 'Test', 'desc' => 'Bla bla blaaaaa']]);
-})->middleware(['auth'])->name('dashboard');
+Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
+    Route::get('/', [PartnerController::class, 'index'])->name('index');
 
-Route::get('/users', function () {
-    return view('welcome');
-})->middleware(['auth'])->name('users');
+    Route::get('/create', [PartnerController::class, 'create'])->name('create');
+    Route::post('/create', [PartnerController::class, 'store'])->name('store');
 
-Route::get('/partners', function () {
-    return view('welcome');
-})->middleware(['auth'])->name('partners');
+    Route::get('/edit/{id}', [PartnerController::class, 'show'])->name('show');
+    Route::post('/edit', [PartnerController::class, 'edit'])->name('edit');
 
-Route::get('/structures', function () {
-    return view('welcome');
-})->middleware(['auth'])->name('structures');
+    Route::post('/delete/{id}', [PartnerController::class, 'delete'])->name('delete');
+    Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
+});
 
-Route::get('/services', function () {
-    return view('welcome');
-})->middleware(['auth'])->name('services');
+Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'structures', 'as' => 'structures.', 'middleware' => 'auth'], function () {
+        Route::get('/', [PartnerController::class, 'index'])->name('index');
+        Route::get('/{partner_id}', [PartnerController::class, 'index'])->name('index_partner');
+
+        Route::get('/create', [PartnerController::class, 'create'])->name('create');
+        Route::post('/create', [PartnerController::class, 'store'])->name('store');
+
+        Route::get('/edit/{id}', [PartnerController::class, 'show'])->name('show');
+        Route::post('/edit', [PartnerController::class, 'edit'])->name('edit');
+
+        Route::post('/delete/{id}', [PartnerController::class, 'delete'])->name('delete');
+        Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
+    });
+
+    Route::get('/', [PartnerController::class, 'index'])->name('index');
+
+    Route::get('/create', [PartnerController::class, 'create'])->name('create');
+    Route::post('/create', [PartnerController::class, 'store'])->name('store');
+
+    Route::get('/edit/{id}', [PartnerController::class, 'show'])->name('show');
+    Route::post('/edit', [PartnerController::class, 'edit'])->name('edit');
+
+    Route::post('/delete/{id}', [PartnerController::class, 'delete'])->name('delete');
+    Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
+});
+
+Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => 'auth'], function () {
+    Route::get('/', [PartnerController::class, 'index'])->name('index');
+
+    Route::get('/create', [PartnerController::class, 'create'])->name('create');
+    Route::post('/create', [PartnerController::class, 'store'])->name('store');
+
+    Route::get('/edit/{id}', [PartnerController::class, 'show'])->name('show');
+    Route::post('/edit', [PartnerController::class, 'edit'])->name('edit');
+
+    Route::post('/delete/{id}', [PartnerController::class, 'delete'])->name('delete');
+    Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
+});
 
 Route::get('/params', function () {
     return view('welcome');
