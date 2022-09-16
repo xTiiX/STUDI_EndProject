@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_active')->default(true);
             $table->string('short_desc', 250);
             $table->text('full_desc')->nullable();
             $table->string('logo_url', 300);
