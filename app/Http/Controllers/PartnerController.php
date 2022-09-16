@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Partner;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class PartnerController extends Controller
 {
@@ -28,18 +30,42 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        $users = User::all();
-        return view('partner/create-partner', ['users' => $users]);
+        return view('partner/create-partner');
     }
 
     /**
      * Store a new Partner
      *
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function store()
+    public function store(Request $req)
     {
-        $partner = [];
+        $password = Str::random(20);
+        $req['password'] = Hash::make($password);
+        $validated = $req->validate([
+            'first_name' => 'required | string',
+            'last_name' => 'required | string',
+            'email' => 'required | unique:users',
+            'logo_url' => 'required',
+            'short_desc' => 'required | string',
+            'full_desc' => 'nullable',
+            'dpo' => 'nullable',
+            'technical_contact' => 'nullable',
+            'commercial_contact' => 'nullable',
+            'user_id' => 'nullable',
+            'password' => 'required',
+        ]);
+
+        $user = User::create($validated);
+        $validated['user_id'] = $user->id;
+
+        $partner = Partner::create($validated);
+
+        // Send Email with password
+        return dd($password, $user->email);
+
+        return redirect(route('partners.index'));
     }
 
     /**
@@ -47,9 +73,9 @@ class PartnerController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show()
+    public function show(int $id)
     {
-
+        return view('partner.show-partner', ['partner' => Partner::where('id', $id)->first()]);
     }
 
     /**
@@ -57,9 +83,29 @@ class PartnerController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit()
+    public function edit(Request $req)
     {
+        $validated = $req->validate([
+            'logo_url' => 'required',
+            'short_desc' => 'required | string',
+            'full_desc' => 'nullable',
+            'dpo' => 'nullable',
+            'technical_contact' => 'nullable',
+            'commercial_contact' => 'nullable',
+        ]);
 
+        $partner = Partner::where('id', $req->id)->first();
+
+        $partner->short_desc = $req->short_desc;
+        $partner->full_desc = $req->full_desc;
+        $partner->logo_url = $req->logo_url;
+        $partner->dpo = $req->dpo;
+        $partner->technical_contact = $req->technical_contact;
+        $partner->commercial_contact = $req->commercial_contact;
+
+        $partner->save();
+
+        return redirect(route('partners.index'));
     }
 
     /**
@@ -67,9 +113,10 @@ class PartnerController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function delete()
+    public function delete(int $id)
     {
-
+        Partner::where('id', $id)->delete();
+        return redirect()->back();
     }
 
     /**
@@ -77,8 +124,9 @@ class PartnerController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function restore()
+    public function restore(int $id)
     {
-
+        Partner::withTrashed()->where('id', $id)->restore();
+        return redirect()->back();
     }
 }

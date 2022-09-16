@@ -18,8 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/modal-test', function () {
+    return view('modal-example');
+});
+
 Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
     Route::get('/', [PartnerController::class, 'index'])->name('index');
+    Route::get('/new-password', [PartnerController::class, 'index'])->name('new-password');
 
     Route::get('/create', [PartnerController::class, 'create'])->name('create');
     Route::post('/create', [PartnerController::class, 'store'])->name('store');
@@ -32,7 +37,7 @@ Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], fu
 });
 
 Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'structures', 'as' => 'structures.', 'middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'structures', 'as' => 'structures.'], function () {
         Route::get('/', [PartnerController::class, 'index'])->name('index');
         Route::get('/{partner_id}', [PartnerController::class, 'index'])->name('index_partner');
 

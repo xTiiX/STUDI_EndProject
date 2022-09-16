@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
@@ -20,10 +21,23 @@ return new class extends Migration
             $table->string('password');
             $table->string('first_name', 255);
             $table->string('last_name', 255);
-            $table->unsignedBigInteger('access_level')->default(0);
+            $table->unsignedBigInteger('access_level')->default(1);
+            $table->boolean('is_first_connection')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // Insert some stuff
+        DB::table('users')->insert(
+            array(
+                'email' => env('ADMIN_EMAIL'),
+                'password' => Hash::make(env('ADMIN_PASSWORD')),
+                'first_name' => 'admin',
+                'last_name' => 'admin',
+                'access_level' => 0,
+                'is_first_connection' => false,
+            )
+        );
     }
 
     /**
