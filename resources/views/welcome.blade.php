@@ -36,11 +36,11 @@
                     <div class="mt-4 text-lg">
                         @if (Route::has('login'))
                             @auth
-                                <a href="{{ url('/partners') }}" class="text-sm text-gray-600 dark:text-gray-500 underline">Tableau de bord</a>
+                                <a href="{{ route('partners.index') }}" class="text-sm text-gray-600 dark:text-gray-500 underline">Tableau de bord</a>
                             @else
-                                <a href="{{ url('/login') }}" class="text-sm text-gray-600 dark:text-gray-500 underline">Connexion</a>
+                                <a href="{{ route('login') }}" class="text-sm text-gray-600 dark:text-gray-500 underline">Connexion</a>
                                 @if (Route::has('register'))
-                                    <a href="{{ url('/register') }}" class="ml-4 text-sm text-gray-600 dark:text-gray-500 underline">Inscription</a>
+                                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-600 dark:text-gray-500 underline">Inscription</a>
                                 @endif
                             @endauth
                         @endif

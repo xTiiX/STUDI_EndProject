@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -17,6 +18,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+	/**try {
+	*    DB::connection()->getPdo();
+	*} catch (\Exception $e) {
+	*    die("Could not connect to the database.  Please check your configuration. error:" . $e );
+	*}
+	*/
         return view('auth.login');
     }
 

@@ -9,18 +9,14 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-            ],
-            refresh: true,
+            ],            refresh: true,
         }),
         basicSsl(),
     ],
     server: {
-        https: 	true,
-	host:	'localhost',
-	port:	5173,
-    },
-    build: {
-    	manifest: true,
-	modulePreload: {polyfill: false}
+        https: 	true
+,
+	port:	8000,
+	cors:	true
     }
 });

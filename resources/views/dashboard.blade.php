@@ -33,9 +33,29 @@
             </div>
             @endif
             <div class="p-4"></div>
+            <div class="form-group">
+                <input type="text" class="form-controller" id="search" name="search"></input>
+            </div>
+            <div class="p-4"></div>
             @foreach ($partners as $partner)
                 <x-partner-board-part :partner="$partner"/>
             @endforeach
         </div>
     </div>
 </x-app-layout>
+<script type="text/javascript">
+    $('#search').on('keyup', function () {
+        $value = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: '{{URL::to('partners/search')}}',
+            data: { 'search': $value },
+            success: function (data) {
+                $('tbody').html(data);
+            }
+        });
+    })
+</script>
+<script type="text/javascript">
+    $.ajaxSetup({ headers: { 'csrftoken': '{{ csrf_token() }}' } });
+</script>

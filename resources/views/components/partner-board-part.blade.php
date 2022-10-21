@@ -6,7 +6,7 @@ $attributes = (!$partner->trashed()) ?
     : "bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3" ;
 @endphp
 
-<div class="{{ $attributes }}">
+<div class="{{ ($attributes) }}">
     <div class="p-6">
         <div class="flex">
             <div class="mr-4 mt-3">
