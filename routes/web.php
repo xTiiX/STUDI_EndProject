@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,8 @@ Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => 'auth
     Route::post('/delete/{id}', [PartnerController::class, 'delete'])->name('delete');
     Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
 });
+
+//Route::get('/mail_test', [MailController::class, 'index']);
 
 Route::get('/params', function () {
     return view('welcome');
