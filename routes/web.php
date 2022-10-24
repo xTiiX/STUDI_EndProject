@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +44,6 @@ Route::get('/search-test/search',[SearchController::class, 'search']);
 
 Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
     Route::get('/', [PartnerController::class, 'index'])->name('index');
-    // Route::get('/new-password', [PartnerController::class, 'index'])->name('new-password');
 
     Route::get('/create', [PartnerController::class, 'create'])->name('create');
     Route::post('/create', [PartnerController::class, 'store'])->name('store');
@@ -98,10 +96,6 @@ Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => 'auth
     Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
 });
 
-//Route::get('/mail_test', [MailController::class, 'index']);
-
-Route::get('/params', function () {
-    return view('welcome');
-})->middleware(['auth'])->name('params');
+Route::get('/params', [PartnerController::class, 'index'])->middleware(['auth'])->name('params');
 
 require __DIR__.'/auth.php';

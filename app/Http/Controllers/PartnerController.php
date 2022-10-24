@@ -7,6 +7,8 @@ use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Mail;
+use App\Mail\RegisterMail;
 
 class PartnerController extends Controller
 {
@@ -43,7 +45,8 @@ class PartnerController extends Controller
     {
         $password = Str::random(20);
         $req['password'] = Hash::make($password);
-        $validated = $req->validate([
+	$req['access_level'] = 1;
+	$validated = $req->validate([
             'first_name' => 'required | string',
             'last_name' => 'required | string',
             'email' => 'required | unique:users',
@@ -55,7 +58,8 @@ class PartnerController extends Controller
             'commercial_contact' => 'nullable',
             'user_id' => 'nullable',
             'password' => 'required',
-        ]);
+	    'access_level' => 'nullable',
+	    ]);
 
         $user = User::create($validated);
         $validated['user_id'] = $user->id;
@@ -63,9 +67,17 @@ class PartnerController extends Controller
         $partner = Partner::create($validated);
 
         // Send Email with password
-        return dd($password, $user->email);
+        //return dd($password, $user->email);
 
-        return redirect(route('partners.index'));
+        $mailData = [
+            'title' => 'Bienvenue chez Loockers ! - Création de compte',
+            'email' => $user->email,
+            'password' => $password
+        ];
+
+        Mail::to($user->email)->send(new RegisterMail($mailData));
+
+        return redirect(route('partners.index')); // SESSION TO SAY ITS DONE ! :D
     }
 
     /**

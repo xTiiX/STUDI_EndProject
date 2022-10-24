@@ -5,15 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\TestMail;
+use App\Mail\RegisterMail;
 
 class MailController extends Controller
 {
-
-    /**
-    * Write code on Method
-    *
-    * @return response()
-    */
     public function index()
     {
         $mailData = [
@@ -26,4 +21,14 @@ class MailController extends Controller
         dd("Email is sent successfully.");
     }
 
+    public function sendRegisterMail(Request $req)
+    {
+        $mailData = [
+            'title' => 'Bienvenue chez Loockers ! - Création de compte',
+            'email' => $req->email,
+            'password' => $req->password
+        ];
+
+        Mail::to($req->email)->send(new RegisterMail($mailData));
+    }
 }
