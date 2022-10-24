@@ -11,7 +11,7 @@ $attributes = (!$partner->trashed()) ?
         <div class="flex">
             <div class="mr-4 mt-3">
                 <a href="">
-                    <img src="{{ $partner->logo_url }}" alt="" class="bg-gray-500 sm:shadow-sm rounded-full p-3">
+                    <img src="{{ $partner->logo_url }}" alt="" class="bg-gray-500 sm:shadow-sm rounded-full p-3 w-1 h-auto">
                 </a>
             </div>
             <div class="flex grow">
