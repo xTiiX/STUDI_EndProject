@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://loockers.xtiix.fr'),
+    'url' => env('APP_URL', 'https://loockers.xtiix.fr'),
 
     'asset_url' => env('ASSET_URL'),
 

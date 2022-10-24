@@ -19,14 +19,14 @@ use App\Http\Controllers\ParamsController;
 //////////////////////////////////////////
 
 $proxy_url    = getenv('PROXY_URL');
-$proxy_schema = getenv('PROXY_SCHEMA');
+$proxy_scheme = getenv('PROXY_SCHEME');
 
 if (!empty($proxy_url)) {
    URL::forceRootUrl($proxy_url);
 }
 
-if (!empty($proxy_schema)) {
-   URL::forceSchema($proxy_schema);
+if (!empty($proxy_scheme)) {
+   URL::forceScheme($proxy_scheme);
 }
 
 //////////////////////////////////////////

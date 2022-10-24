@@ -16,7 +16,7 @@ $attributes = (!$partner->trashed()) ?
             </div>
             <div class="flex grow">
                 <div>
-                    <p class="text-lg underline">{{ $partner->short_desc }}</p><p class="text-xs">Relier à : {{ $partner->linkUser()->first()->first_name }} {{ $partner->linkUser()->first()->last_name }}</p>
+                    <p class="text-lg underline">{{ $partner->short_desc }}</p><p class="text-xs">Relié à : {{ $partner->linkUser()->first()->first_name }} {{ $partner->linkUser()->first()->last_name }}</p>
                 </div>
                 <div class="grow"></div>
                 @if (auth()->user()->access_level === 0) {{-- Admin --}}
