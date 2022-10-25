@@ -1,4 +1,4 @@
-@props(['partner'])
+@props(['partner', 'attributes' => ''])
 
 @php
 $attributes = (!$partner->trashed()) ?
@@ -9,14 +9,14 @@ $attributes = (!$partner->trashed()) ?
 <div class="{{ ($attributes) }}">
     <div class="p-6">
         <div class="flex">
-            <div class="mr-4 mt-3">
-                <a href="">
-                    <img src="{{ $partner->logo_url }}" alt="" class="bg-gray-500 sm:shadow-sm rounded-full p-3 w-1 h-auto">
+            <div class="mr-4 mt-2 h-10 w-10">
+                <a href="{{ route('partners.structures.index_partner', ['partner_id', $partner->id]) }}">
+                    <img src="{{ $partner->logo_url }}" alt="" class=" bg-gray-500 sm:shadow-sm rounded-full p-1 object-scale-down">
                 </a>
             </div>
             <div class="flex grow">
                 <div>
-                    <p class="text-lg underline">{{ $partner->short_desc }}</p><p class="text-xs">Relié à : {{ $partner->linkUser()->first()->first_name }} {{ $partner->linkUser()->first()->last_name }}</p>
+                    <p class="text-lg underline">{{ $partner->short_desc }}</p><p class="text-xs">Relier à : {{ $partner->linkUser()->first()->first_name }} {{ $partner->linkUser()->first()->last_name }}</p>
                 </div>
                 <div class="grow"></div>
                 @if (auth()->user()->access_level === 0) {{-- Admin --}}

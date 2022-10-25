@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('access_level')->default(1);
             $table->boolean('is_first_connection')->default(true);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

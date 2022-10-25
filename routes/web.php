@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PartnerController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ParamsController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ Route::get('/modal-test', function () {
 
 Route::get('/search-test',[SearchController::class, 'index']);
 
-Route::get('/search-test/search',[SearchController::class, 'search']);
+Route::get('/search-test/search',[SearchController::class, 'workingSearch'])->name('search');
 
 Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
     Route::get('/', [PartnerController::class, 'index'])->name('index');
@@ -98,6 +98,6 @@ Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => 'auth
 });
 
 Route::get('/params', [ParamsController::class, 'index'])->middleware(['auth'])->name('params');
-Route::post('/params/modPass', [ParamsController::class, 'storeNewPass'])->middleware(['auth'])->name('params.storeNewPass');
+Route::post('/params/newPass', [ParamsController::class, 'storeNewPass'])->middleware(['auth'])->name('params.storeNewPass');
 
 require __DIR__.'/auth.php';
