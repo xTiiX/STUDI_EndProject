@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\ParamsController;
 use App\Http\Controllers\SearchController;
 
 /*
@@ -18,14 +19,14 @@ use App\Http\Controllers\SearchController;
 //////////////////////////////////////////
 
 $proxy_url    = getenv('PROXY_URL');
-$proxy_schema = getenv('PROXY_SCHEMA');
+$proxy_scheme = getenv('PROXY_SCHEME');
 
 if (!empty($proxy_url)) {
    URL::forceRootUrl($proxy_url);
 }
 
-if (!empty($proxy_schema)) {
-   URL::forceSchema($proxy_schema);
+if (!empty($proxy_scheme)) {
+   URL::forceScheme($proxy_scheme);
 }
 
 //////////////////////////////////////////
@@ -40,7 +41,7 @@ Route::get('/modal-test', function () {
 
 Route::get('/search-test',[SearchController::class, 'index']);
 
-Route::get('/search-test/search',[SearchController::class, 'search']);
+Route::get('/search-test/search',[SearchController::class, 'workingSearch'])->name('search');
 
 Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
     Route::get('/', [PartnerController::class, 'index'])->name('index');
@@ -96,6 +97,7 @@ Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => 'auth
     Route::post('/restore/{id}', [PartnerController::class, 'restore'])->name('restore');
 });
 
-Route::get('/params', [PartnerController::class, 'index'])->middleware(['auth'])->name('params');
+Route::get('/params', [ParamsController::class, 'index'])->middleware(['auth'])->name('params');
+Route::post('/params/newPass', [ParamsController::class, 'storeNewPass'])->middleware(['auth'])->name('params.storeNewPass');
 
 require __DIR__.'/auth.php';

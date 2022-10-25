@@ -21,8 +21,7 @@ class PartnerController extends Controller
     {
         $partners = Partner::withTrashed()->get();
         $users = User::all();
-        // return $partners;
-        return view('dashboard', ['partners' => $partners, 'users' => $users]);
+        return view('partner/dashboard', ['partners' => $partners, 'users' => $users]);
     }
 
     /**
@@ -127,7 +126,7 @@ class PartnerController extends Controller
      */
     public function delete(int $id)
     {
-        Partner::where('id', $id)->delete();
+        $partner = Partner::where('id', $id)->first()->delete();
         return redirect()->back();
     }
 
@@ -138,7 +137,7 @@ class PartnerController extends Controller
      */
     public function restore(int $id)
     {
-        Partner::withTrashed()->where('id', $id)->restore();
+        $partner = Partner::withTrashed()->where('id', $id)->first()->restore();
         return redirect()->back();
     }
 }

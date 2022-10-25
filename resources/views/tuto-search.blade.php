@@ -3,8 +3,8 @@
     <head>
         <meta name="_token" content="{{ csrf_token() }}">
         <title>Live Search</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
         <div class="container">
@@ -13,23 +13,14 @@
                     <div class="panel-heading">
                         <h3>Products info </h3>
                     </div>
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <input type="text" class="form-controller" id="search" name="search"></input>
-                        </div>
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        <div class="respond"></div>
+                    <div class="form-group">
+                        <input type="text" class="form-controller" id="search" name="search"></input>
                     </div>
+                </div>
+                <div id="list">
+                    @foreach ($partners as $partner)
+                        <x-partner-board-part :partner="$partner" />
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -38,10 +29,11 @@
                 $value = $(this).val();
                 $.ajax({
                     type: 'get',
-                    url: '{{URL::to('search-test/search')}}',
+                    url: '{{ route('search') }}',
                     data: { 'search': $value },
                     success: function (data) {
-                        $('#respond').html(data);
+                        let list = document.getElementById('list');
+                        data.forEach(partner => list.innerHTML += `<x-partner-board-part :partner="<?php echo json_encode($partner)) ?>" />`);
                     }
                 });
             })
