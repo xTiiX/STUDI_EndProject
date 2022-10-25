@@ -41,22 +41,55 @@ class SearchController extends Controller
     public function searchPartners(Request $req)
     {
         if ($req->ajax()) {
-            // Adding reviews and total review
             $partners = Partner::withTrashed()->where('short_desc', 'LIKE', '%'.$req->search.'%')->get();
+            if ($req->search == '')
+                $partners = Partner::withTrashed()->get();
 
             $output = '';
 
             foreach ($partners as $partner) {
-                // if ($partner->trashed())
-                //     $attributes = "bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3";
-                // else
-                //     $attributes = "bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3";
+                if (!$partner->trashed())
+                    $output .= '<div class="bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3">';
+                else
+                    $output .= '<div class="bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3">';
 
-                $output .= view("components.partner-board-part",
-                    ["partner" => $partner])
-                    ->render();
+                $output .= '<div class="p-6">
+                <div class="flex">
+                    <div class="mr-4 mt-2 h-10 w-10">
+                        <a href='. route("partners.structures.index_partner", ["partner_id", $partner->id]) . '>
+                            <img src=' . $partner->logo_url . ' alt="" class=" bg-gray-500 sm:shadow-sm rounded-full p-1 object-scale-down">
+                        </a>
+                    </div>
+                    <div class="flex grow">
+                        <div>
+                            <p class="text-lg underline">' . $partner->short_desc . '</p><p class="text-xs">Relier à : ' . $partner->linkUser()->first()->first_name . ' ' . $partner->linkUser()->first()->last_name . '</p>
+                        </div>
+                        <div class="grow"></div>';
+                        if (auth()->user()->access_level === 0) {
+                            if ($partner->trashed()) {
+                                $output .= '<div class="bg-gray-800 rounded-sm sm:rounded-lg p-1 ml-2 text-center mt-2">
+                                <form action="' . route("partners.restore", $partner->id) . '" method="post">
+                                    <input type="hidden" name="_token" value='. csrf_token() .'>
+                                    <button type="submit" class="text-white sm:shadow-sm"> Acti</button>
+                                </form>
+                            </div>';
+                            }
+                            else {
+                                $output .= '<div class="bg-gray-800 rounded-sm sm:rounded-lg p-1 text-center mt-2">
+                                    <a href="' . route("partners.show", $partner->id) . '" class="text-white sm:shadow-sm">
+                                        Edit
+                                    </a>
+                                </div>
+                                <div class="bg-gray-800 rounded-sm sm:rounded-lg p-1 ml-2 text-center mt-2">
+                                    <form action="' . route("partners.delete", $partner->id) . '" method="post">
+                                        <input type="hidden" name="_token" value='. csrf_token() .'>
+                                        <button type="submit" class="text-white sm:shadow-sm"> Désa</button>
+                                    </form>
+                                </div>';
+                            }
+                        }
+                    $output .= '</div></div></div></div>';
             }
-
 
             if ($partners)
                 return $output;
