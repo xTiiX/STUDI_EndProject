@@ -47,14 +47,13 @@ class SearchController extends Controller
             $output = '';
 
             foreach ($partners as $partner) {
-                if ($partner->trashed())
-                    $attributes = "bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3";
-                else
-                    $attributes = "bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3";
-                return view("components.partner-board-part",
-                ["partner" => $partner, "attributes" => $attributes]);
+                // if ($partner->trashed())
+                //     $attributes = "bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3";
+                // else
+                //     $attributes = "bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3";
+
                 $output .= view("components.partner-board-part",
-                    ["partner" => $partner, "attributes" => $attributes])
+                    ["partner" => $partner])
                     ->render();
             }
 

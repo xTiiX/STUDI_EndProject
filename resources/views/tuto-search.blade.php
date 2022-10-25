@@ -25,6 +25,7 @@
             </div>
         </div>
         <script type="text/javascript">
+            var list = document.getElementById('list');
             $('#search').on('keyup', function () {
                 $value = $(this).val();
                 $.ajax({
@@ -32,8 +33,7 @@
                     url: '{{ route('search') }}',
                     data: { 'search': $value },
                     success: function (data) {
-                        let list = document.getElementById('list');
-                        data.forEach(partner => list.innerHTML += `<x-partner-board-part :partner="<?php echo json_encode($partner)) ?>" />`);
+                        list.innerHTML = data;
                     }
                 });
             })
