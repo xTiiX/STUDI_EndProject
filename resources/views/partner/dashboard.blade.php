@@ -37,21 +37,24 @@
                 <input type="text" class="form-controller" id="search" name="search"></input>
             </div>
             <div class="p-4"></div>
-            @foreach ($partners as $partner)
-                <x-partner-board-part :partner="$partner"/>
-            @endforeach
+            <div id="list">
+                @foreach ($partners as $partner)
+                    <x-partner-board-part :partner="$partner"/>
+                @endforeach
+            </div>
         </div>
     </div>
 </x-app-layout>
 <script type="text/javascript">
+    var list = document.getElementById('list');
     $('#search').on('keyup', function () {
         $value = $(this).val();
         $.ajax({
             type: 'get',
-            url: '{{URL::to('partners/search')}}',
+            url: '{{ route('search') }}',
             data: { 'search': $value },
             success: function (data) {
-                $('tbody').html(data);
+                list.innerHTML = data;
             }
         });
     })
