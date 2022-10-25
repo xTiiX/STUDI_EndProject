@@ -41,7 +41,7 @@ Route::get('/modal-test', function () {
 
 Route::get('/search-test',[SearchController::class, 'index']);
 
-Route::get('/search-test/search',[SearchController::class, 'workingSearch'])->name('search');
+Route::get('/search-test/search',[SearchController::class, 'searchPartners'])->name('search');
 
 Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
     Route::get('/', [PartnerController::class, 'index'])->name('index');

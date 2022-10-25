@@ -1,12 +1,10 @@
-@props(['partner', 'attributes' => ''])
+@props(['partner'])
 
-@php
-$attributes = (!$partner->trashed()) ?
-    "bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3"
-    : "bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3" ;
-@endphp
-
-<div class="{{ ($attributes) }}">
+@if (!$partner->trashed())
+<div class="bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3">
+@else
+<div class="bg-red-400 overflow-hidden shadow-sm rounded-sm sm:rounded-lg mt-3">
+@endif
     <div class="p-6">
         <div class="flex">
             <div class="mr-4 mt-2 h-10 w-10">
