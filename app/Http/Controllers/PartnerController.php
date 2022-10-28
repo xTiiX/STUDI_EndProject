@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Structure;
 use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -20,8 +21,9 @@ class PartnerController extends Controller
     public function index()
     {
         $partners = Partner::withTrashed()->get();
-        $users = User::all();
-        return view('partner/dashboard', ['partners' => $partners, 'users' => $users]);
+        $structures = Structure::withTrashed()->get();
+        $users = User::withTrashed()->get();
+        return view('partner.dashboard', ['partners' => $partners, 'users' => $users, 'structures' => $structures]);
     }
 
     /**
@@ -126,7 +128,9 @@ class PartnerController extends Controller
      */
     public function delete(int $id)
     {
-        $partner = Partner::where('id', $id)->first()->delete();
+        $partner = Partner::where('id', $id)->first();
+        $partner->linkUser()->first()->delete();
+        $partner->delete();
         return redirect()->back();
     }
 
@@ -137,7 +141,9 @@ class PartnerController extends Controller
      */
     public function restore(int $id)
     {
-        $partner = Partner::withTrashed()->where('id', $id)->first()->restore();
+        $partner = Partner::withTrashed()->where('id', $id)->first();
+        $partner->linkUser()->first()->restore();
+        $partner->restore();
         return redirect()->back();
     }
 }

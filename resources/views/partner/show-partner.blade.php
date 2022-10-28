@@ -10,7 +10,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-6">
             <div class="bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg p-6 flex">
-                <x-add-form-part name="de Partenaire" button="Éditer">
+                <x-mod-form-part name="de Partenaire" button="Éditer">
                     <x-slot name="route">
                         {{ route('partners.edit') }}
                     </x-slot>
@@ -61,7 +61,7 @@
                             <input type="hidden" name="id" value="{{ $partner->id }}">
                         </div>
                     </x-slot>
-                </x-add-form-part>
+                </x-mod-form-part>
             </div>
         </div>
     </div>

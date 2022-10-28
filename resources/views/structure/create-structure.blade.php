@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2">
-                {{ __('Création Partenaire') }}
+                {{ __('Création Salle') }}
             </h2>
         </div>
     </x-slot>
@@ -12,32 +12,32 @@
             <div class="bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg p-6 flex">
                 <x-add-form-part name="de Partenaire" button="Ajouter">
                     <x-slot name="route">
-                        {{ route('partners.store') }}
+                        {{ route('partners.structures.store') }}
                     </x-slot>
                     <x-slot name="back">
-                        {{ route('partners.index') }}
+                        {{ route('partners.structures.index') }}
                     </x-slot>
                     <x-slot name="content">
                         @csrf
                         <div class="flex">
                             <div>
-                                <div class="flex flex- space-x-1">
-                                    <p>Prénom<p class="text-red-500">*</p></p>
+                                <div class="flex flex-row space-x-1 mt-5">
+                                    <p>Nom de la Salle<p class="text-red-500">*</p></p>
                                     <p>:</p>
                                     <div class="p-1"></div>
-                                    <input type="text" name="first_name" id="first_name" class="-mt-0.5 max-h-7 rounded-md" required>
+                                    <input type="text" name="name" id="name" class="-mt-0.5 max-h-7 rounded-md" required>
                                 </div>
                                 <div class="flex flex-row space-x-1 mt-5">
-                                    <p>Nom<p class="text-red-500">*</p></p>
+                                    <p>Adresse et Complement d'adresse<p class="text-red-500">*</p></p>
                                     <p>:</p>
                                     <div class="p-1"></div>
-                                    <input type="text" name="last_name" id="last_name" class="-mt-0.5 max-h-7 rounded-md" required>
+                                    <input type="text" name="adress" id="adress" class="-mt-0.5 max-h-7 rounded-md" required>
                                 </div>
                                 <div class="flex flex-row space-x-1 mt-5">
-                                    <p>Email<p class="text-red-500">*</p></p>
+                                    <p>Tél.<p class="text-red-500">*</p></p>
                                     <p>:</p>
                                     <div class="p-1"></div>
-                                    <input type="email" name="email" id="email" class="-mt-0.5 max-h-7 rounded-md" required>
+                                    <input type="text" name="phone" id="phone" class="-mt-0.5 max-h-7 rounded-md" required>
                                 </div>
                                 <div class="flex flex-row space-x-1 mt-5">
                                     <p>URL du Logo<p class="text-red-500">*</p></p>
@@ -45,38 +45,16 @@
                                     <div class="p-1"></div>
                                     <input type="text" name="logo_url" id="logo_url" class="-mt-0.5 max-h-7 rounded-md" required>
                                 </div>
-                                <div class="flex flex-row space-x-1 mt-5">
-                                    <p>Nom du Partenaire<p class="text-red-500">*</p></p>
+                                <div class="flex flex-row space-x-2 mt-5">
+                                    <p>Partenaire de la Salle<p class="text-red-500">*</p></p>
                                     <p>:</p>
                                     <div class="p-1"></div>
-                                    <input type="text" name="short_desc" id="short_desc" class="-mt-0.5 max-h-7 rounded-md" required>
+                                    <select name="partner_id" id="partner_id" class="-mt-3 rounded-md" required>
+                                        @foreach ($partners as $partner)
+                                        <option value="{{ $partner->id }}">{{ $partner->short_desc }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="flex flex-row space-x-1 mt-5">
-                                    <p>Description du Partenaire</p>
-                                    <p>:</p>
-                                    <div class="p-1"></div>
-                                    <textarea name="full_desc" id="full_desc" class="rounded-md"></textarea>
-                                </div>
-                                <div class="flex flex-row space-x-1 mt-5">
-                                    <p>DPO du Partenaire</p>
-                                    <p>:</p>
-                                    <div class="p-1"></div>
-                                    <input type="text" name="dpo" id="dpo" class="-mt-0.5 max-h-7 rounded-md">
-                                </div>
-                                <div class="flex flex-row space-x-1 mt-5">
-                                    <p>Contact technique</p>
-                                    <p>:</p>
-                                    <div class="p-1"></div>
-                                    <input type="text" name="technical_contact" id="technical_contact" class="-mt-0.5 max-h-7 rounded-md">
-                                </div>
-                                <div class="flex flex-row space-x-1 mt-5">
-                                    <p>Contact commercial</p>
-                                    <p>:</p>
-                                    <div class="p-1"></div>
-                                    <input type="text" name="commercial_contact" id="commercial_contact" class="-mt-0.5 max-h-7 rounded-md">
-                                </div>
-                                <input type="hidden" name="user_id">
-                                <input type="hidden" name="password">
                             </div>
                             {{-- Big Screen Services => A déplacer et ne pas laisser ici ! -> Modification des permissions de service directement dans le  --}}
                             {{-- <div class="grow ml-4 invisible sm:visible">

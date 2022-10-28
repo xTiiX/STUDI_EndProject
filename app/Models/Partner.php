@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\User;
 
 class Partner extends Model
 {
@@ -23,6 +24,6 @@ class Partner extends Model
     ];
 
     public function linkUser() {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return User::withTrashed()->where('id', $this->user_id);
     }
 }

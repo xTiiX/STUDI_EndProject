@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2">
-                {{ __('Partenaires') }}
+                {{ __('Salles') }}
             </h2>
             <div class="grow"></div>
             @if (auth()->user()->access_level === 0) {{-- Admin --}}
@@ -47,8 +47,8 @@
             </div>
             <div class="p-4"></div>
             <div id="list">
-                @foreach ($partners as $partner)
-                    <x-partner-board-part :partner="$partner"/>
+                @foreach ($structures as $structure)
+                    <x-structure-board-part :structure="$structure"/>
                 @endforeach
             </div>
         </div>
