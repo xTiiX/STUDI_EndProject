@@ -2,12 +2,12 @@
     <x-slot name="header">
         <div class="flex">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2">
-                {{ __('Partenaires') }}
+                {{ __('Salles') }}
             </h2>
             <div class="grow"></div>
             @if (auth()->user()->access_level === 0) {{-- Admin --}}
             <div class="text-gray-100 bg-gray-800 p-2 rounded-lg">
-                <a href="{{ route('partners.create') }}">Ajouter un Partenaire</a>
+                <a href="{{ route('partners.structures.create') }}">Ajouter une Salle</a>
             </div>
             @endif
         </div>
@@ -47,8 +47,8 @@
             </div>
             <div class="p-4"></div>
             <div id="list">
-                @foreach ($partners as $partner)
-                    <x-partner-board-part :partner="$partner"/>
+                @foreach ($structures as $structure)
+                    <x-structure-board-part :structure="$structure"/>
                 @endforeach
             </div>
         </div>
@@ -60,7 +60,7 @@
         $value = $(this).val();
         $.ajax({
             type: 'get',
-            url: '{{ route('partners.search') }}',
+            url: '{{ route('partners.structures.search') }}',
             data: { 'search': $value },
             success: function (data) {
                 list.innerHTML = data;
