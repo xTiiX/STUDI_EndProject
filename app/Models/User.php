@@ -24,6 +24,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'access_level',
     ];
 
     /**
@@ -33,7 +34,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'remember_token',
-        'access_level',
     ];
 
     /**
@@ -44,4 +44,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function linkStruct() {
+        return Structure::withTrashed()->where('id', UserStructure::where('user_id', $this->id)->first()->structure_id)->first();
+    }
+
+    public function linkPartner() {
+        return Partner::withTrashed()->where('user_id', $this->id)->first();
+    }
 }

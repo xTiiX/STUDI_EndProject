@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Structure;
 use App\Models\Partner;
 use App\Models\User;
+use App\Models\Service;
+use App\Models\PartnerService;
+use App\Models\StructureService;
 
 class StructureController extends Controller
 {
@@ -19,7 +22,15 @@ class StructureController extends Controller
         $structures = Structure::withTrashed()->get();
         $partners = Partner::withTrashed()->get();
         $users = User::withTrashed()->get();
-        return view('structure.dashboard', ['structures' => $structures, 'partners' => $partners, 'users' => $users]);
+        $partner = Partner::withTrashed()->where('user_id', auth()->user()->id)->first();
+
+        return view('structure.dashboard',
+            [
+                'structures' => $structures,
+                'partners' => $partners,
+                'users' => $users,
+                'partner' => $partner
+            ]);
     }
 
     /**
@@ -29,11 +40,14 @@ class StructureController extends Controller
      */
     public function indexPartner(int $partner_id)
     {
+        $services = Service::all();
+
         return view('structure.partner-dashboard',
             [
                 'structures' => Structure::withTrashed()->get(),
                 'partners' => Partner::withTrashed()->get(),
                 'users' => User::withTrashed()->get(),
+                'services' => $services,
                 'structs_partner' => Structure::withTrashed()->where('partner_id', $partner_id)->get(),
                 'partner' => Partner::withTrashed()->where('id', $partner_id)->first()
             ]);
@@ -46,12 +60,25 @@ class StructureController extends Controller
      */
     public function indexStructure(int $structure_id)
     {
+        $structure = Structure::withTrashed()->where('id', $structure_id)->first();
+        $links = PartnerService::where('partner_id', $structure->partner_id)->get();
+
+        $services_ids = [];
+        foreach ($links as $link)
+            if (!in_array($link->service_id, $services_ids))
+                $services_ids .= $link->service_id;
+
+        $services = [];
+        foreach ($services_ids as $service_id)
+            $services .= Service::where('id', $service_id)->get();
+
         return view('structure.view',
             [
                 'structures' => Structure::withTrashed()->get(),
                 'partners' => Partner::withTrashed()->get(),
                 'users' => User::withTrashed()->get(),
-                'struct' => Structure::withTrashed()->where('id', $structure_id)->get()
+                'services' => $services,
+                'structure' => $structure
             ]);
     }
 
