@@ -41,12 +41,18 @@
                     @if ($partner->commercial_contact)
                         <p class="ml-2 text-sm">Contact Commercial : {{ $partner->commercial_contact }}</p>
                     @endif
-                    <div class="mt-5">
-                        <p class="text-lg underline">Services :</p>
-                        @foreach ($services as $service)
-                            <x-toggle-button  :service="$service"/>
-                        @endforeach
-                    </div>
+                    {{-- Services --}}
+                    <form class="p-3" action="{{ route('partners.service_store') }}" method="post">
+                        @csrf
+                        <div class="mt-5">
+                            <p class="text-lg underline">Services :</p>
+                            @foreach ($services as $service)
+                                <x-toggle-button  :service="$service"/>
+                            @endforeach
+                        </div>
+                        <input type="hidden" name="partner_id" value="{{ $partner->id }}">
+                        <button class="mt-1 mb-4 p-2 rounded-sm sm:rounded-lg text-white bg-gray-800" type="submit">Enregistrer les services</button>
+                    </form>
                     @if (auth()->user()->access_level === 0) {{-- Admin --}}
                         <div class="grow"></div>
                         @if ($partner->trashed())

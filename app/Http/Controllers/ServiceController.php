@@ -110,4 +110,47 @@ class ServiceController extends Controller
         $service = Service::withTrashed()->where('id', $id)->first()->restore();
         return redirect()->back();
     }
+
+    /**
+     * Display the Structure's Services view
+     *
+     * @return \Illuminate\View\View
+     */
+    public function storePartners(Request $req)
+    {
+        $prev = PartnerService::where('partner_id', $req->partner_id)->get();
+        foreach ($prev as $link) {
+            $link->delete();
+        }
+        if ($req->services !== NULL)
+            foreach ($req->services as $service_id) {
+                $link = new PartnerService;
+                $link->service_id = $service_id;
+                $link->partner_id = $req->partner_id;
+                $link->save();
+            }
+        return redirect(route('partners.index_partner', $req->partner_id));
+    }
+
+    /**
+     * Display the Structure's Services view
+     *
+     * @return \Illuminate\View\View
+     */
+    public function storeStructures(Request $req)
+    {
+        $prev = StructureService::where('structure_id', $req->structure_id)->get();
+        foreach ($prev as $link) {
+            $link->delete();
+        }
+        if ($req->services !== NULL)
+            foreach ($req->services as $service_id) {
+                $link = new StructureService;
+                $link->service_id = $service_id;
+                $link->structure_id = $req->structure_id;
+                $link->save();
+            }
+        return redirect(route('partners.structures.index_structure', $req->structure_id));
+    }
+
 }

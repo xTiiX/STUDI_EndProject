@@ -34,12 +34,18 @@
                     @endif
                     <p class="mt-5">Contacts :</p>
                     <p class="ml-2 text-sm">Tel : {{$structure->phone}}</p>
-                    <div class="mt-5">
-                        <p class="text-lg underline">Services :</p>
-                        @foreach ($services as $service)
-                            <x-toggle-button  :service="$service"/>
-                        @endforeach
-                    </div>
+                    {{-- Services --}}
+                    <form class="p-3" action="{{ route('partners.structures.service_store') }}" method="post">
+                        @csrf
+                        <div class="mt-5">
+                            <p class="text-lg underline">Services :</p>
+                            @foreach ($services as $service)
+                                <x-toggle-button  :service="$service"/>
+                            @endforeach
+                        </div>
+                        <input type="hidden" name="structure_id" value="{{ $structure->id }}">
+                        <button class="mt-1 mb-4 p-2 rounded-sm sm:rounded-lg text-white bg-gray-800" type="submit">Enregistrer les services</button>
+                    </form>
                     @if (auth()->user()->access_level === 0) {{-- Admin --}}
                         <div class="flex flex-col">
                             @if ($structure->trashed())
