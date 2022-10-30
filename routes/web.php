@@ -38,7 +38,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => ['auth', 'admin_only']], function () {
     Route::get('/', [UserController::class, 'index'])->name('index'); // DONE
     Route::get('/search', [SearchController::class, 'searchUsers'])->name('search'); // DONE
 
@@ -52,27 +52,29 @@ Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'auth'], fu
     Route::post('/restore/{id}', [UserController::class, 'restore'])->name('restore'); // DONE
 });
 
-Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'structures', 'as' => 'structures.'], function () {
-        Route::get('/', [StructureController::class, 'index'])->name('index'); // DONE
-        Route::get('/search', [SearchController::class, 'searchStructures'])->name('search'); // DONE
-        Route::post('/services', [ServiceController::class, 'storeStructures'])->name('service_store');
+Route::group(['prefix' => 'partners/structures', 'as' => 'partners.structures.', 'middleware' => 'auth'], function () {
+    Route::get('/', [StructureController::class, 'index'])->name('index'); // DONE
+    Route::get('/search', [SearchController::class, 'searchStructures'])->name('search'); // DONE
+    Route::post('/services', [ServiceController::class, 'storeStructures'])->name('service_store'); // DONE
 
-        Route::get('/create', [StructureController::class, 'create'])->name('create'); // DONE
-        Route::post('/create', [StructureController::class, 'store'])->name('store'); // DONE
+    Route::get('/create', [StructureController::class, 'create'])->name('create'); // DONE
+    Route::get('/create_lock/{partner_id}', [StructureController::class, 'createLock'])->name('create_lock');
+    Route::post('/create', [StructureController::class, 'store'])->name('store'); // DONE
 
-        Route::get('/edit/{id}', [StructureController::class, 'show'])->name('show'); // DONE
-        Route::post('/edit', [StructureController::class, 'edit'])->name('edit'); // DONE
+    Route::get('/edit/{id}', [StructureController::class, 'show'])->name('show'); // DONE
+    Route::post('/edit', [StructureController::class, 'edit'])->name('edit'); // DONE
 
-        Route::post('/delete/{id}', [StructureController::class, 'delete'])->name('delete'); // DONE
-        Route::post('/restore/{id}', [StructureController::class, 'restore'])->name('restore'); // DONE
+    Route::post('/delete/{id}', [StructureController::class, 'delete'])->name('delete'); // DONE
+    Route::post('/restore/{id}', [StructureController::class, 'restore'])->name('restore'); // DONE
 
-        Route::get('/view/{structure_id}', [StructureController::class, 'indexStructure'])->name('index_structure'); // DONE
-    });
+    Route::get('/view/{structure_id}', [StructureController::class, 'indexStructure'])->name('index_structure'); // DONE
+});
+
+Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => ['auth', 'partner_only']], function () {
 
     Route::get('/', [PartnerController::class, 'index'])->name('index'); // DONE
     Route::get('/search', [SearchController::class, 'searchPartners'])->name('search'); // DONE
-    Route::post('/services', [ServiceController::class, 'storePartners'])->name('service_store');
+    Route::post('/services', [ServiceController::class, 'storePartners'])->name('service_store'); // DONE
 
     Route::get('/create', [PartnerController::class, 'create'])->name('create'); // DONE
     Route::post('/create', [PartnerController::class, 'store'])->name('store'); // DONE
@@ -86,7 +88,7 @@ Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => 'auth
     Route::get('/view/{partner_id}', [StructureController::class, 'indexPartner'])->name('index_partner'); // DONE
 });
 
-Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'services', 'as' => 'services.', 'middleware' => ['auth', 'admin_only']], function () {
     Route::get('/', [ServiceController::class, 'index'])->name('index'); // DONE
     Route::get('/search', [SearchController::class, 'searchServices'])->name('search'); // DONE
 

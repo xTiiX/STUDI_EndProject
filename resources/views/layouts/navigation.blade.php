@@ -5,26 +5,28 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center mt-3">
-                    <a href="{{ route('partners.index') }}">
+                    <a href="{{ route('partners.structures.index') }}">
                         <x-application-logo class="block h-10 w-auto" color="#374151"/>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('partners.index')" :active="request()->routeIs('partners.index')">
-                        {{ __('Partenaires') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('partners.structures.index')" :active="request()->routeIs('partners.structures.index')">
                         {{ __('Salles') }}
                     </x-nav-link>
-                    @if (auth()->user()->access_level === 0) {{-- Admin --}}
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                        {{ __('Utilisateurs') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
-                        {{ __('Services') }}
-                    </x-nav-link>
+                    @if (auth()->user()->access_level < 2) {{-- Partners --}}
+                        <x-nav-link :href="route('partners.index')" :active="request()->routeIs('partners.index')">
+                            {{ __('Partenaires') }}
+                        </x-nav-link>
+                        @if (auth()->user()->access_level === 0) {{-- Admin --}}
+                            <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
+                                {{ __('Services') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                                {{ __('Utilisateurs') }}
+                            </x-nav-link>
+                        @endif
                     @endif
                 </div>
             </div>

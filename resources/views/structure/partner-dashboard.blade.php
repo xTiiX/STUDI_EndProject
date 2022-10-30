@@ -4,12 +4,18 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2">
                 {{ 'Partenaire ' . $partner->short_desc  }}
             </h2>
+            <div class="grow"></div>
+            @if (auth()->user()->access_level < 2) {{-- Admin / Partenaire des Salles --}}
+            <div class="text-gray-100 bg-gray-800 p-2 rounded-lg">
+                <a href="{{ route('partners.structures.create_lock', $partner->id) }}">Ajouter une Salle</a>
+            </div>
+            @endif
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-6">
-            @if (auth()->user()->access_level === 0) {{-- Admin --}}
+            @if (auth()->user()->access_level < 2) {{-- Admin --}}
             <div class="flex items-center p-6 sm:p-0 bg-white border-b border-gray-200 sm:border-none shadow-sm sm:shadow-none overflow-hidden text-center sm:bg-transparent">
                 <div class="sm:grow"></div>
                 <div class="sm:p-6 sm:bg-white sm:border-b sm:border-gray-200 sm:shadow-sm sm:overflow-hidden sm:text-center sm:rounded-lg">

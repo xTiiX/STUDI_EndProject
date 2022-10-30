@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Structure;
 use App\Models\Partner;
 use App\Models\User;
+use App\Models\UserStructure;
 use App\Models\Service;
 use App\Models\PartnerService;
 use App\Models\StructureService;
@@ -19,10 +20,16 @@ class StructureController extends Controller
      */
     public function index()
     {
-        $structures = Structure::withTrashed()->get();
         $partners = Partner::withTrashed()->get();
         $users = User::withTrashed()->get();
         $partner = Partner::withTrashed()->where('user_id', auth()->user()->id)->first();
+
+        if (auth()->user()->access_level === 0)
+            $structures = Structure::withTrashed()->get();
+        else if (auth()->user()->access_level === 1)
+            $structures = Structure::withTrashed()->where('partner_id', $partner->id)->get();
+        else
+            $structures = Structure::withTrashed()->where('id', UserStructure::where('user_id', auth()->user()->id)->first()->user_id)->get();
 
         return view('structure.dashboard',
             [
@@ -116,6 +123,17 @@ class StructureController extends Controller
     public function create()
     {
         $partners = Partner::all();
+        return view('structure.create-structure', ['partners' => $partners]);
+    }
+
+    /**
+     * Create a new Structure, ready to be store
+     *
+     * @return \Illuminate\View\View
+     */
+    public function createLock(int $partner_id)
+    {
+        $partners[] = Partner::where('id', $partner_id)->first();
         return view('structure.create-structure', ['partners' => $partners]);
     }
 
