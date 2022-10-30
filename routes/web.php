@@ -56,6 +56,7 @@ Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => 'auth
     Route::group(['prefix' => 'structures', 'as' => 'structures.'], function () {
         Route::get('/', [StructureController::class, 'index'])->name('index'); // DONE
         Route::get('/search', [SearchController::class, 'searchStructures'])->name('search'); // DONE
+        Route::post('/services', [ServiceController::class, 'storeStructures'])->name('service_store');
 
         Route::get('/create', [StructureController::class, 'create'])->name('create'); // DONE
         Route::post('/create', [StructureController::class, 'store'])->name('store'); // DONE
@@ -66,11 +67,12 @@ Route::group(['prefix' => 'partners', 'as' => 'partners.', 'middleware' => 'auth
         Route::post('/delete/{id}', [StructureController::class, 'delete'])->name('delete'); // DONE
         Route::post('/restore/{id}', [StructureController::class, 'restore'])->name('restore'); // DONE
 
-        Route::get('/view/{structure_id}', [StructureController::class, 'indexStructure'])->name('index_structure');
+        Route::get('/view/{structure_id}', [StructureController::class, 'indexStructure'])->name('index_structure'); // DONE
     });
 
     Route::get('/', [PartnerController::class, 'index'])->name('index'); // DONE
     Route::get('/search', [SearchController::class, 'searchPartners'])->name('search'); // DONE
+    Route::post('/services', [ServiceController::class, 'storePartners'])->name('service_store');
 
     Route::get('/create', [PartnerController::class, 'create'])->name('create'); // DONE
     Route::post('/create', [PartnerController::class, 'store'])->name('store'); // DONE

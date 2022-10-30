@@ -41,6 +41,19 @@ class StructureController extends Controller
     public function indexPartner(int $partner_id)
     {
         $services = Service::all();
+        $selected = PartnerService::where('partner_id', $partner_id)->get();
+
+        $selected_ids = [];
+        foreach ($selected as $link)
+            if (!in_array($link->service_id, $selected_ids))
+                $selected_ids[] = $link->service_id;
+
+        // is_checked for Services in PartnerService table
+        for ($i=0; $i < count($services); $i++)
+            if (in_array($services[$i]->id, $selected_ids))
+                $services[$i]->is_checked = true;
+            else
+                $services[$i]->is_checked = false;
 
         return view('structure.partner-dashboard',
             [
@@ -61,16 +74,29 @@ class StructureController extends Controller
     public function indexStructure(int $structure_id)
     {
         $structure = Structure::withTrashed()->where('id', $structure_id)->first();
-        $links = PartnerService::where('partner_id', $structure->partner_id)->get();
+        $partner_links = PartnerService::where('partner_id', $structure->partner_id)->get();
+        $selected_links = StructureService::where('structure_id', $structure_id)->get();
 
         $services_ids = [];
-        foreach ($links as $link)
+        foreach ($partner_links as $link)
             if (!in_array($link->service_id, $services_ids))
-                $services_ids .= $link->service_id;
+                $services_ids[] = $link->service_id;
+
+        $selected_ids = [];
+        foreach ($selected_links as $link)
+            if (!in_array($link->service_id, $selected_ids))
+                $selected_ids[] = $link->service_id;
 
         $services = [];
         foreach ($services_ids as $service_id)
-            $services .= Service::where('id', $service_id)->get();
+            $services[] = Service::where('id', $service_id)->first();
+
+        // is_checked for PartnerService in StructureService table
+        for ($i=0; $i < count($services); $i++)
+            if (in_array($services[$i]->id, $selected_ids))
+                $services[$i]->is_checked = true;
+            else
+                $services[$i]->is_checked = false;
 
         return view('structure.view',
             [
