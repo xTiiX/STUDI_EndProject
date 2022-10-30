@@ -47,9 +47,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('params')">
-                            {{ __('Paramètres') }}
-                        </x-dropdown-link>
+                        @if (auth()->user()->email !== "admin@loockers.fr")
+                            <x-dropdown-link :href="route('params')">
+                                {{ __('Paramètres') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -79,17 +81,17 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                {{ __('Utilisateurs') }}
+            <x-responsive-nav-link :href="route('partners.structures.index')" :active="request()->routeIs('partners.structures.index')">
+                {{ __('Salles') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('partners.index')" :active="request()->routeIs('partners.index')">
                 {{ __('Partenaires') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('partners.structures.index')" :active="request()->routeIs('partners.structures.index')">
-                {{ __('Salles') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.index')">
                 {{ __('Services') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                {{ __('Utilisateurs') }}
             </x-responsive-nav-link>
         </div>
 
