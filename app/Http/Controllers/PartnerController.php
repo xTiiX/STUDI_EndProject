@@ -23,9 +23,14 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        $partners = Partner::withTrashed()->get();
         $structures = Structure::withTrashed()->get();
         $users = User::withTrashed()->get();
+
+        if (auth()->user()->access_level === 0)
+            $partners = Partner::withTrashed()->get();
+        else
+            $partners = Partner::withTrashed()->where('user_id', auth()->user()->id)->get();
+
         return view('partner.dashboard', ['partners' => $partners, 'users' => $users, 'structures' => $structures]);
     }
 
@@ -36,7 +41,7 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        return view('partner/create-partner');
+        return view('partner.create-partner');
     }
 
     /**
