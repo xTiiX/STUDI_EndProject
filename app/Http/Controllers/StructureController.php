@@ -202,7 +202,10 @@ class StructureController extends Controller
      */
     public function delete(int $id)
     {
-        $structure = Structure::where('id', $id)->first()->delete();
+        Structure::where('id', $id)->first()->delete();
+        $user_link = UserStructure::where('structure_id', $id)->first();
+        if ($user_link !== NULL)
+            User::withTrashed()->where('id', $user_link->user_id)->first()->delete();
         return redirect()->back();
     }
 
@@ -213,7 +216,10 @@ class StructureController extends Controller
      */
     public function restore(int $id)
     {
-        $structure = Structure::withTrashed()->where('id', $id)->first()->restore();
+        Structure::withTrashed()->where('id', $id)->first()->restore();
+        $user_link = UserStructure::where('structure_id', $id)->first();
+        if ($user_link !== NULL)
+            User::withTrashed()->where('id', $user_link->user_id)->first()->restore();
         return redirect()->back();
     }
 }

@@ -10,7 +10,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-6">
             <div class="bg-white overflow-hidden shadow-sm rounded-sm sm:rounded-lg p-6 flex">
-                <x-mod-form-part name="de Service" button="Éditer">
+                <x-mod-form-part name="d'Utilisateur" button="Éditer">
                     <x-slot name="route">
                         {{ route('users.edit') }}
                     </x-slot>
